@@ -7,7 +7,7 @@ public class ObsticleSpawner : MonoBehaviour
 
     private Dictionary<Transform, GameObject> spawnedObstacles = new Dictionary<Transform, GameObject>();
 
-    
+
 
     public void SpawnObstacle(Transform tile)
     {
@@ -21,11 +21,17 @@ public class ObsticleSpawner : MonoBehaviour
         if (obsticles.Count == 0)
             return;
 
+        int spawnChance = Random.Range(0, 100);
+
+        if (spawnChance < 10)
+            return;
+
+
         // انتخاب تصادفی نوع مانع
         int randomNumber = Random.Range(0, obsticles.Count);
 
         float width = tile.localScale.x;
-        float partWidth = width / 3f;
+        float partWidth = width / Random.Range(0.6f, 0.3f);
 
         float center = tile.position.x;
 
@@ -45,14 +51,13 @@ public class ObsticleSpawner : MonoBehaviour
             tile.position.z
         );
 
-        // ساخت مانع
         GameObject obstacle = Instantiate(
             obsticles[randomNumber],
             spawnPosition,
             Quaternion.identity,
             tile
         );
-
         spawnedObstacles.Add(tile, obstacle);
     }
+
 }

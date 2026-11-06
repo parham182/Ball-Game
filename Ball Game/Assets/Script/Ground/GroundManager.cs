@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,7 @@ public class GroundManager : MonoBehaviour
     public int tileCount = 5;
     public float tileLength = 20f;
     public float moveSpeed = 10f;
+
     [HideInInspector]
     public float width;
     public float partWidth;
@@ -86,6 +88,7 @@ public class GroundManager : MonoBehaviour
             tile.position += Vector3.back * moveSpeed * Time.deltaTime;
         }
 
+
         // بررسی پنل انتهایی
         Transform firstTile = tiles[0];
 
@@ -101,15 +104,8 @@ public class GroundManager : MonoBehaviour
             tiles.RemoveAt(0);
             tiles.Add(firstTile);
 
-            firstTile.position = lastTile.position
-        + Vector3.forward * tileLength;
-
             // ساخت مجدد مانع با موقعیت و نوع تصادفی
             obstacleSpawner.SpawnObstacle(firstTile);
-
-            // انتقال پنل به انتهای لیست
-            tiles.RemoveAt(0);
-            tiles.Add(firstTile);
         }
     }
 }
