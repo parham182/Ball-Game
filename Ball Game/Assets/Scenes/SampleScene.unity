@@ -804,6 +804,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1390452529}
   - component: {fileID: 1390452528}
+  - component: {fileID: 1390452530}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -832,6 +833,7 @@ MonoBehaviour:
   tileCount: 10
   tileLength: 10
   moveSpeed: 10
+  right: 0
 --- !u!4 &1390452529
 Transform:
   m_ObjectHideFlags: 0
@@ -847,6 +849,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1390452530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390452527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae3ccbb1199086c2bfb708036962607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObsticleSpawner
+  obsticles:
+  - {fileID: 3357560811014466208, guid: bc86986e759bc9de18993cbac360094c, type: 3}
 --- !u!1 &1556139392
 GameObject:
   m_ObjectHideFlags: 0

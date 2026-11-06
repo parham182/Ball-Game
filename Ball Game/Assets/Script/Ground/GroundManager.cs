@@ -5,14 +5,32 @@ using UnityEngine.EventSystems;
 
 public class GroundManager : MonoBehaviour
 {
+    [SerializeField] ObsticleSpawner obstacleSpawner;
     [Header("Settings")]
     [SerializeField] GameObject obsticle;
     [SerializeField] public List<GameObject> tilePrefabs;
     public int tileCount = 5;
     public float tileLength = 20f;
     public float moveSpeed = 10f;
+    [HideInInspector]
+    public float width;
+    public float partWidth;
+    public float left;
+    public float middle;
+    public float right;
+    public float randomX;
 
     private readonly List<Transform> tiles = new List<Transform>();
+
+    public static GroundManager instance;
+
+    void Awake()
+    {
+        instance = this;
+
+        if (obstacleSpawner == null)
+            obstacleSpawner = GetComponent<ObsticleSpawner>();
+    }
 
     void Start()
     {
@@ -28,28 +46,34 @@ public class GroundManager : MonoBehaviour
                 Quaternion.identity
             );
 
-            float width = tile.transform.localScale.x;
-            float partWidth = width / 3f;
+            width = tile.transform.localScale.x;
+            partWidth = width / 3f;
 
-            float left = tile.transform.localScale.x - partWidth;
-            float middle = tile.transform.position.x;
-            float right = tile.transform.localScale.x + partWidth;
+            left = tile.transform.localScale.x - partWidth;
+            middle = tile.transform.position.x;
+            right = tile.transform.localScale.x + partWidth;
 
-            int rndome = Random.Range(0, 3);
-            print(rndome);
-            switch (rndome)
+            int randomNumber = Random.Range(0, 4);
+
+            randomX = 0;
+            print(randomNumber);
+            switch (randomNumber)
             {
                 case 0:
-                    Instantiate(obsticle, new Vector3(left, 0, 0), Quaternion.identity);
+                    randomX = left;
                     break;
+
                 case 1:
-                    Instantiate(obsticle, new Vector3(middle, 0, 0), Quaternion.identity);
+                    randomX = middle;
                     break;
+
                 case 2:
-                    Instantiate(obsticle, new Vector3(right, 0, 0), Quaternion.identity);
+                    randomX = right;
                     break;
             }
 
+
+            obstacleSpawner.SpawnObstacle(tile.transform);
             tiles.Add(tile.transform);
         }
     }
@@ -72,6 +96,16 @@ public class GroundManager : MonoBehaviour
             // انتقال پنل قدیمی به جلوی آخرین پنل
             firstTile.position = lastTile.position
                 + Vector3.forward * tileLength;
+
+            // انتقال پنل به انتهای لیست
+            tiles.RemoveAt(0);
+            tiles.Add(firstTile);
+
+            firstTile.position = lastTile.position
+        + Vector3.forward * tileLength;
+
+            // ساخت مجدد مانع با موقعیت و نوع تصادفی
+            obstacleSpawner.SpawnObstacle(firstTile);
 
             // انتقال پنل به انتهای لیست
             tiles.RemoveAt(0);
